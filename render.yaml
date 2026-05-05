@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: rag-qa
+    runtime: python
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false   # you paste this in Render dashboard — never commit it
+    disk:
+      name: rag-data
+      mountPath: /opt/render/project/src
+      sizeGB: 5       # stores chroma_db + uploaded docs between deploys
